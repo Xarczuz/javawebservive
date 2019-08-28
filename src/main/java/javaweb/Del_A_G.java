@@ -33,8 +33,7 @@ public class Del_A_G {
 		try {
 
 			url = new URL(adress);// Creates the URL object
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();// Create the instance does not establish
-																				// connection with the network.
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();// Create the instance does not establish																				// connection with the network.
 			con.setRequestMethod("GET");
 			print(con);
 
@@ -58,6 +57,7 @@ public class Del_A_G {
 				br.close();
 //				Parse the string to a jsonobject
 				JSONObject js = new JSONObject(sb.toString());
+				
 				System.out.println("Date: " + js.get("date"));
 				System.out.println(js.get("milliseconds_since_epoch") + "ms since epoch");
 				System.out.println("Time: " + js.get("time"));

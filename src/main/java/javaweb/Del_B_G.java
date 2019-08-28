@@ -1,7 +1,5 @@
 package javaweb;
 
-import java.io.IOException;
-
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
@@ -14,56 +12,66 @@ import javax.xml.soap.SOAPPart;
 
 public class Del_B_G {
 	public static void main(String[] args) {
+
+		getInfoFromISOCode("SE");
+		getInfoFromISOCode("AF");
+		getInfoFromISOCode("US");
+		getInfoFromISOCode("CH");
+		getInfoFromISOCode("AX");
+	}
+
+	private static void getInfoFromISOCode(String countryISOCode) {
 		String url = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL";
 		String country = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CountryName";
 		String capital = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CapitalCity";
 		String currency = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CountryCurrency";
-		callSoapWebService(url, country, "SE");
-
+		System.out.println("************");
+		callSoapWebService(url, country, countryISOCode);
+		callSoapWebService(url, capital, countryISOCode);
+		callSoapWebService(url, currency, countryISOCode);
+		System.out.println("************");
 	}
 
 	private static void callSoapWebService(String url, String function, String countryISOCode) {
 		try {
 			SOAPConnectionFactory soapConFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapCon = soapConFactory.createConnection();
-			SOAPMessage response = soapCon.call(createSoapRequest(function, countryISOCode), url);
-
-			response.writeTo(System.out);
+			SOAPMessage response = soapCon.call(createSoapRequest(function, countryISOCode), url);// Get the response
+																									// after sending the
+																									// xml soapmessage.
+//			response.writeTo(System.out); Prints the whole XML response
+			if(function.endsWith("CountryCurrency")) {
+				System.out.println(response.getSOAPBody().getElementsByTagName("m:sISOCode").item(0).getTextContent());
+				System.out.println(response.getSOAPBody().getElementsByTagName("m:sName").item(0).getTextContent());
+			}else {
+				System.out.println(response.getSOAPBody().getFirstChild().getNextSibling().getTextContent().trim());				
+			}
 
 		} catch (UnsupportedOperationException e) {
 			e.printStackTrace();
 		} catch (SOAPException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
+//		catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
 	}
 
 	private static SOAPMessage createSoapRequest(String function, String countryISOCode) throws SOAPException {
 
 		MessageFactory mf = MessageFactory.newInstance();
 		SOAPMessage sm = mf.createMessage();
-		createSoapMessage(sm, countryISOCode);
-
-//			if (function.endsWith("CountryName")) {
-//				System.out.println("kommer jag hit!");
-//			} else if (function.endsWith("CapitalCity")) {
-//				System.out.println("capital");
-//			} else if (function.endsWith("CountryCurrency")) {
-//				System.out.println("currency");
-//			}
+		createSoapMessage(sm, countryISOCode, function);
 
 		return sm;
 	}
 
-	private static void createSoapMessage(SOAPMessage sm, String countryISOCode) {
+	private static void createSoapMessage(SOAPMessage sm, String countryISOCode, String function) {
 		SOAPPart soapPart = sm.getSOAPPart();
 		try {
 			SOAPEnvelope soapEnevelope = soapPart.getEnvelope();
-			soapEnevelope.addNamespaceDeclaration("ns1",
-					"http://www.oorsprong.org/websamples.countryinfo");
-
+			soapEnevelope.addNamespaceDeclaration("ns1", "http://www.oorsprong.org/websamples.countryinfo");
 			// <?xml version="1.0" encoding="UTF-8"?>
 //			<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo">
 //			  <SOAP-ENV:Body>
@@ -81,7 +89,7 @@ public class Del_B_G {
 //			    </ns1:CountryName>
 //			  </SOAP-ENV:Body>
 //			</SOAP-ENV:Envelope>
-//			    
+
 //			    <?xml version="1.0" encoding="UTF-8"?>
 //			    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo">
 //			      <SOAP-ENV:Body>
@@ -90,10 +98,21 @@ public class Del_B_G {
 //			        </ns1:CurrencyName>
 //			      </SOAP-ENV:Body>
 //			    </SOAP-ENV:Envelope>
-
+//			Build the SOAPMESSAGE XML structure for each function.
 			SOAPBody soapBody = soapEnevelope.getBody();
-			SOAPElement soapElement = soapBody.addChildElement("CountryName", "ns1");
-			SOAPElement soapElement2 = soapElement.addChildElement("sCountryISOCode", "ns1");
+			SOAPElement soapElement = null;
+			SOAPElement soapElement2 = null;
+			if (function.endsWith("CountryName")) {
+				soapElement = soapBody.addChildElement("CountryName", "ns1");
+
+			} else if (function.endsWith("CapitalCity")) {
+				soapElement = soapBody.addChildElement("CapitalCity", "ns1");
+
+			} else if (function.endsWith("CountryCurrency")) {
+				soapElement = soapBody.addChildElement("CountryCurrency", "ns1");
+
+			}
+			soapElement2 = soapElement.addChildElement("sCountryISOCode", "ns1");
 			soapElement2.addTextNode(countryISOCode);
 
 		} catch (SOAPException e) {
