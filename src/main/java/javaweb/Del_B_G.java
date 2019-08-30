@@ -34,19 +34,17 @@ public class Del_B_G {
 
 	private static void callSoapWebService(String url, String function, String countryISOCode) {
 		try {
-			
 			SOAPConnectionFactory soapConFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapCon = soapConFactory.createConnection();
 			SOAPMessage response = soapCon.call(createSoapRequest(function, countryISOCode), url);// Get the response
-																								  // after sending the
-																								  // xml soapmessage.
+																									// after sending the
+																									// xml soapmessage.
 			// response.writeTo(System.out); Prints the whole XML response
-			
-			if(function.endsWith("CountryCurrency")) {
+			if (function.endsWith("CountryCurrency")) {
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sISOCode").item(0).getTextContent());
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sName").item(0).getTextContent());
-			}else {
-				System.out.println(response.getSOAPBody().getFirstChild().getNextSibling().getTextContent().trim());				
+			} else {
+				System.out.println(response.getSOAPBody().getFirstChild().getNextSibling().getTextContent().trim());
 			}
 
 		} catch (UnsupportedOperationException e) {
