@@ -22,16 +22,13 @@ import org.json.JSONObject;
  */
 public class Del_A_G {
 	public static void main(String[] args) {
-
 		connectToAdress();
-
 	}
 
 	private static void connectToAdress() {
 		String adress = "http://date.jsontest.com/";
 		URL url;
 		try {
-
 			url = new URL(adress);// Creates the URL object
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();// Create the instance does not establish																				// connection with the network.
 			con.setRequestMethod("GET");
