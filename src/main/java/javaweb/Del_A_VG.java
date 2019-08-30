@@ -28,7 +28,6 @@ public class Del_A_VG {
 		Response res = service.request().get();
 		if (res.getStatus() == 200) {
 //			Get the json from site.
-		
 			JSONObject js = new JSONObject(service.request(MediaType.APPLICATION_JSON).get().readEntity(String.class));
 			System.out.println("Date: " + js.get("date"));
 			System.out.println(js.get("milliseconds_since_epoch") + "ms since epoch");

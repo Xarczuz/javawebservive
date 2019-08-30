@@ -22,9 +22,9 @@ public class Del_B_G {
 
 	private static void getInfoFromISOCode(String countryISOCode) {
 		String url = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL";
-		String country = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CountryName";
-		String capital = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CapitalCity";
-		String currency = "https://wsdlbrowser.com/soapclient?wsdl_url=http%3A%2F%2Fwebservices.oorsprong.org%2Fwebsamples.countryinfo%2FCountryInfoService.wso%3FWSDL&function_name=CountryCurrency";
+		String country = "CountryName";
+		String capital = "CapitalCity";
+		String currency = "CountryCurrency";
 		System.out.println("************");
 		callSoapWebService(url, country, countryISOCode);
 		callSoapWebService(url, capital, countryISOCode);
@@ -34,12 +34,14 @@ public class Del_B_G {
 
 	private static void callSoapWebService(String url, String function, String countryISOCode) {
 		try {
+			
 			SOAPConnectionFactory soapConFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapCon = soapConFactory.createConnection();
 			SOAPMessage response = soapCon.call(createSoapRequest(function, countryISOCode), url);// Get the response
-																									// after sending the
-																									// xml soapmessage.
-//			response.writeTo(System.out); Prints the whole XML response
+																								  // after sending the
+																								  // xml soapmessage.
+			// response.writeTo(System.out); Prints the whole XML response
+			
 			if(function.endsWith("CountryCurrency")) {
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sISOCode").item(0).getTextContent());
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sName").item(0).getTextContent());
@@ -52,10 +54,6 @@ public class Del_B_G {
 		} catch (SOAPException e) {
 			e.printStackTrace();
 		}
-//		catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
 	}
 
 	private static SOAPMessage createSoapRequest(String function, String countryISOCode) throws SOAPException {
@@ -73,32 +71,8 @@ public class Del_B_G {
 			SOAPEnvelope soapEnevelope = soapPart.getEnvelope();
 			soapEnevelope.addNamespaceDeclaration("ns1", "http://www.oorsprong.org/websamples.countryinfo");
 			// <?xml version="1.0" encoding="UTF-8"?>
-//			<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo">
-//			  <SOAP-ENV:Body>
-//			    <ns1:CapitalCity>
-//			      <ns1:sCountryISOCode>AX</ns1:sCountryISOCode>
-//			    </ns1:CapitalCity>
-//			  </SOAP-ENV:Body>
-//			</SOAP-ENV:Envelope>
 
-//			<?xml version="1.0" encoding="UTF-8"?>
-//			<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo">
-//			  <SOAP-ENV:Body>
-//			    <ns1:CountryName>
-//			      <ns1:sCountryISOCode>?</ns1:sCountryISOCode>
-//			    </ns1:CountryName>
-//			  </SOAP-ENV:Body>
-//			</SOAP-ENV:Envelope>
-
-//			    <?xml version="1.0" encoding="UTF-8"?>
-//			    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://www.oorsprong.org/websamples.countryinfo">
-//			      <SOAP-ENV:Body>
-//			        <ns1:CurrencyName>
-//			          <ns1:sCurrencyISOCode>AFA</ns1:sCurrencyISOCode>
-//			        </ns1:CurrencyName>
-//			      </SOAP-ENV:Body>
-//			    </SOAP-ENV:Envelope>
-//			Build the SOAPMESSAGE XML structure for each function.
+			// Build the SOAPMESSAGE XML structure for each function.
 			SOAPBody soapBody = soapEnevelope.getBody();
 			SOAPElement soapElement = null;
 			SOAPElement soapElement2 = null;
