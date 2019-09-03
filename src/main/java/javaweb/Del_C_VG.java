@@ -9,7 +9,7 @@ public class Del_C_VG {
 		CountryInfoService service = new CountryInfoService();
  
 		CountryInfoServiceSoapType server = service.getCountryInfoServiceSoap();
- 
+
 		System.out.println(server.listOfContinentsByCode().getTContinent().iterator().next().getSName());
  
 	}
