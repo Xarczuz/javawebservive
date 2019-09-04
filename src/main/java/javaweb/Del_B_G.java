@@ -39,8 +39,8 @@ public class Del_B_G {
 	}
 
 	/**
-	 * @param url
-	 * @param function
+	 * @param url to API
+	 * @param function to call to the API
 	 * @param countryISOCode
 	 */
 	private static void callSoapWebService(String url, String function, String countryISOCode) {
@@ -65,7 +65,7 @@ public class Del_B_G {
 	}
 
 	/**
-	 * @param function
+	 * @param function to call the API
 	 * @param countryISOCode
 	 * @return SOAPMessage
 	 * @throws SOAPException
@@ -81,7 +81,7 @@ public class Del_B_G {
 	/**
 	 * @param sm
 	 * @param countryISOCode
-	 * @param function
+	 * @param function to call the API
 	 */
 	private static void createSoapMessage(SOAPMessage sm, String countryISOCode, String function) {
 		SOAPPart soapPart = sm.getSOAPPart();
