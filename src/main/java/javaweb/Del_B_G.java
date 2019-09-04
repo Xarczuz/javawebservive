@@ -55,7 +55,7 @@ public class Del_B_G {
 	}
 
 	private static SOAPMessage createSoapRequest(String function, String countryISOCode) throws SOAPException {
-
+		//Creates the soap- part, envelope, body, header
 		MessageFactory mf = MessageFactory.newInstance();
 		SOAPMessage sm = mf.createMessage();
 		createSoapMessage(sm, countryISOCode, function);
