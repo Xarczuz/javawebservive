@@ -4,6 +4,10 @@ import autogen.CountryInfoService;
 import autogen.CountryInfoServiceSoapType;
 
 public class Del_C_VG {
+	/**
+	 * Auto generated classes using wsimport
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		 
 		CountryInfoService service = new CountryInfoService();
