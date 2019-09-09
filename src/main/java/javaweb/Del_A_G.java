@@ -25,6 +25,9 @@ public class Del_A_G {
 		connectToAdress();
 	}
 
+	/**
+	 * Connects to the adress using http
+	 */
 	private static void connectToAdress() {
 		String adress = "http://date.jsontest.com/";
 		URL url;
@@ -44,15 +47,17 @@ public class Del_A_G {
 	private static void print(HttpURLConnection con) {
 		if (con != null) {
 			try {
+				// Reads the response from the inputstream
 				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String input;
 				StringBuilder sb = new StringBuilder();
+				// Iterates over the response and builds the string with string builder.
 				while ((input = br.readLine()) != null) {
 //					System.out.println(input); Write out line directly from inputstream.
 					sb.append(input); // Builds a string from the inputstream
 				}
 				br.close();
-//				Parse the string to a jsonobject
+//				Parse the whole string to a jsonobject
 				JSONObject js = new JSONObject(sb.toString());
 				
 				System.out.println("Date: " + js.get("date"));
