@@ -3,7 +3,7 @@ package javaweb;
 import autogen.CountryInfoService;
 import autogen.CountryInfoServiceSoapType;
 
-public class Del_C_VG {
+public class Del_C_VG3 {
 	/**
 	 * Auto generated classes using wsimport to get the data
 	 * 

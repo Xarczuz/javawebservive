@@ -16,7 +16,7 @@ import javax.xml.soap.SOAPMessage;
  * @author chjun
  *
  */
-public class Del_B_G2 {
+public class Del_C_VG1 {
 
 	public static void main(String[] args) throws SOAPException {
 		String adress = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL";
