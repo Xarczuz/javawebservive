@@ -11,6 +11,11 @@ import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
+/**
+ * Uses the http protocol to send the xml message to the server and prints the response
+ * @author chjun
+ *
+ */
 public class Del_B_G2 {
 
 	public static void main(String[] args) throws SOAPException {
@@ -28,6 +33,7 @@ public class Del_B_G2 {
 			OutputStreamWriter writer = null;
 			try {
 				writer = new OutputStreamWriter(con.getOutputStream());
+				// Sends the xml soap message
 				writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 						+ "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n"
 						+ "  <SOAP-ENV:Body>\r\n" + "    <ns1:FullCountryInfo>\r\n"
@@ -40,13 +46,13 @@ public class Del_B_G2 {
 					} catch (IOException logOrIgnore) {
 					}
 			}
+			// Prints the response directly to console
 //			BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 //			String res = null;
 //			while ((res = reader.readLine()) != null) {
-//
 //				System.out.println(res);
-//
 //			}
+			
 			// Parse it to a SoapMEssage so that you can easier get you data from the tag names.
 			SOAPMessage sm = MessageFactory.newInstance().createMessage(new MimeHeaders(), con.getInputStream());
 			// Takes all the text content and prints it. 

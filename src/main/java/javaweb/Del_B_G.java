@@ -15,6 +15,10 @@ import javax.xml.soap.SOAPPart;
  *
  */
 public class Del_B_G {
+	/**
+	 * The countries to look up
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		getInfoFromISOCode("SE");
 		getInfoFromISOCode("AF");
@@ -39,19 +43,24 @@ public class Del_B_G {
 	}
 
 	/**
+	 * Calls the soap service and send the message and prints the response
 	 * @param url to API
 	 * @param function to call to the API
 	 * @param countryISOCode
 	 */
 	private static void callSoapWebService(String url, String function, String countryISOCode) {
 		try {
+			// Creates the soap connection
 			SOAPConnectionFactory soapConFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapCon = soapConFactory.createConnection();
 
 			// Get the response after sending the xml soapmessage.
 			SOAPMessage response = soapCon.call(createSoapRequest(function, countryISOCode), url);
 			// response.writeTo(System.out); Prints the whole XML response
+			
+			
 			if (function.contentEquals("CountryCurrency")) {
+				// Gets the data by tagname
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sISOCode").item(0).getTextContent());
 				System.out.println(response.getSOAPBody().getElementsByTagName("m:sName").item(0).getTextContent());
 			} else {
@@ -65,6 +74,7 @@ public class Del_B_G {
 	}
 
 	/**
+	 * Creates the soap message template
 	 * @param function to call the API
 	 * @param countryISOCode
 	 * @return SOAPMessage
@@ -79,6 +89,7 @@ public class Del_B_G {
 	}
 
 	/**
+	 * Creates the soap message
 	 * @param sm
 	 * @param countryISOCode
 	 * @param function to call the API
