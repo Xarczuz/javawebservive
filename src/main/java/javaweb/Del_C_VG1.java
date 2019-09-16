@@ -23,9 +23,9 @@ import javax.xml.soap.SOAPMessage;
 public class Del_C_VG1 {
 
 	public static void main(String[] args) throws SOAPException {
-		
-		String ISOCODE ="US";
-		
+
+		String ISOCODE = "US";
+
 		String adress = "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL";
 		URL url;
 		try {
@@ -43,8 +43,8 @@ public class Del_C_VG1 {
 				// Sends the xml soap message
 				writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 						+ "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n"
-						+ "  <SOAP-ENV:Body>\r\n" + "    <ns1:FullCountryInfo>\r\n"
-						+ "      <ns1:sCountryISOCode>"+ISOCODE+"</ns1:sCountryISOCode>\r\n" + "    </ns1:FullCountryInfo>\r\n"
+						+ "  <SOAP-ENV:Body>\r\n" + "    <ns1:FullCountryInfo>\r\n" + "      <ns1:sCountryISOCode>"
+						+ ISOCODE + "</ns1:sCountryISOCode>\r\n" + "    </ns1:FullCountryInfo>\r\n"
 						+ "  </SOAP-ENV:Body>\r\n" + "</SOAP-ENV:Envelope>\r\n" + "");
 			} finally {
 				if (writer != null)
@@ -68,8 +68,8 @@ public class Del_C_VG1 {
 			System.out.println(
 					"Capital: " + sm.getSOAPBody().getElementsByTagName("m:sCapitalCity").item(0).getTextContent());
 			System.out.println("Country: " + sm.getSOAPBody().getElementsByTagName("m:sName").item(0).getTextContent());
-			System.out.println(
-					"Currency: " + sm.getSOAPBody().getElementsByTagName("m:sCurrencyISOCode").item(0).getTextContent());
+			System.out.println("Currency: "
+					+ sm.getSOAPBody().getElementsByTagName("m:sCurrencyISOCode").item(0).getTextContent());
 
 		} catch (MalformedURLException e) {// Catch errors
 			e.printStackTrace();
